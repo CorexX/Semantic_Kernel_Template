@@ -1,0 +1,4 @@
+python-dotenv
+azure-identity
+python-docx
+semantic_kernel
