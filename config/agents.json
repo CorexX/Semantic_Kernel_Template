@@ -6,7 +6,8 @@
     "instructions": "Handle support queries.",
     "description": "Support agent.",
     "handoffs": { "web_search_agent": "Transfer to this agent if the issue is related to current events or requires web search. e.g. 'How is the weather in xxx today?'", 
-                  "file_retrieval_agent": "Transfer to this agent if the issue requires file retrieval. e.g. 'Find the document about xxx', information about specific people." }
+                  "file_retrieval_agent": "Transfer to this agent if the issue requires file retrieval. e.g. 'Find the document about xxx', information about specific people.",
+                  "ToolUserAgent": "Transfer to this agent if the issue requires tool usage. e.g. 'Add 2 and 3'." }
   },
   {
     "type": "existing",
@@ -23,5 +24,13 @@
     "description": "Bing Grounding Agent",
     "handoffs": { "OrchestrationAgent": "Escalate to SupportAgent",
                   "web_search_agent": "Escalate to web_search_agent"   }
+  },
+  {
+  "type": "new",
+  "model_deployment_name": "gpt-4.1",
+  "name": "ToolUserAgent",
+  "instructions": "You have access to the tool 'tools.add_numbers(a, b)' ...",
+  "description": "Tool User Agent, which can use tools to perform tasks.",
+  "handoffs": { "OrchestrationAgent": "Transfer to this agent if the issue is related to current events or requires web search. e.g. 'How is the weather in xxx today?'"}
   }
 ]

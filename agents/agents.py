@@ -16,7 +16,7 @@ Returns from init_agents:
 from semantic_kernel.agents import AzureAIAgent, OrchestrationHandoffs
 from config.settings import load_agent_definitions, load_settings
 
-async def create_or_fetch_agent(agent_cfg, project_client, created_agent_ids):
+async def create_or_fetch_agent(agent_cfg, project_client, created_agent_ids,kernel=None):
     """
     Create a new agent or fetch an existing agent based on the configuration.
 
@@ -53,7 +53,8 @@ async def create_or_fetch_agent(agent_cfg, project_client, created_agent_ids):
         raise ValueError(f"Unknown agent type in config: {agent_cfg.get('type')}")
     agent = AzureAIAgent(
         client=project_client,
-        definition=agent_definition
+        definition=agent_definition,
+        kernel=kernel
     )
     # Ensure the agent's .name property matches the config for orchestration
     try:
@@ -79,7 +80,7 @@ def build_handoffs_dict(agent_configs):
         handoffs_dict[agent_name] = handoff_names
     return handoffs_dict
 
-async def init_agents(project_client):
+async def init_agents(project_client, kernel=None):
     """
     Initializes multiple agents (new and existing) and orchestration handoffs.
 
@@ -96,7 +97,7 @@ async def init_agents(project_client):
 
         # Create or fetch all agents as specified in the config
         for agent_cfg in agent_configs:
-            agent = await create_or_fetch_agent(agent_cfg, project_client, created_agent_ids)
+            agent = await create_or_fetch_agent(agent_cfg, project_client, created_agent_ids, kernel)
             agents.append(agent)
 
         # Build the handoff connections dictionary

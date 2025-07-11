@@ -9,7 +9,7 @@ from chat.callbacks import streaming_agent_response_callback
 from chat.user_input import human_response_function
 from agents.agents import init_agents
 
-async def setup_and_invoke_orchestration(project_client, task, runtime):
+async def setup_and_invoke_orchestration(project_client, task, runtime,kernel=None):
     """
     Sets up the handoff orchestration and invokes it with the given task and runtime.
 
@@ -22,7 +22,7 @@ async def setup_and_invoke_orchestration(project_client, task, runtime):
         The result of the orchestration invocation.
     """
     try:
-        agents, handoffs, created_agent_ids = await init_agents(project_client)
+        agents, handoffs, created_agent_ids = await init_agents(project_client, kernel)
         handoff_orchestration = HandoffOrchestration(
             members=agents,
             handoffs=handoffs,
