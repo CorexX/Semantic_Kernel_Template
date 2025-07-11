@@ -13,10 +13,12 @@ Returns from init_agents:
     tuple: (list of agents, OrchestrationHandoffs instance, list of created agent IDs)
 """
 
+# === Imports ===
 from semantic_kernel.agents import AzureAIAgent, OrchestrationHandoffs
 from config.settings import load_agent_definitions, load_settings
 
-async def create_or_fetch_agent(agent_cfg, project_client, created_agent_ids,kernel=None):
+# === Agent Creation ===
+async def create_or_fetch_agent(agent_cfg, project_client, created_agent_ids, kernel=None):
     """
     Create a new agent or fetch an existing agent based on the configuration.
 
@@ -24,6 +26,7 @@ async def create_or_fetch_agent(agent_cfg, project_client, created_agent_ids,ker
         agent_cfg (dict): Agent configuration.
         project_client: Azure AI project client.
         created_agent_ids (list): List to append created agent IDs for cleanup.
+        kernel: Optional kernel to attach to the agent.
 
     Returns:
         AzureAIAgent: The initialized agent.
@@ -42,7 +45,6 @@ async def create_or_fetch_agent(agent_cfg, project_client, created_agent_ids,ker
             description=agent_cfg.get("description", "")
         )
         created_agent_ids.append(agent_definition.id)
-        
     elif agent_cfg.get("type") == "existing":
         # Fetch an existing agent by ID
         agent_id = agent_cfg.get("agent_id")
@@ -60,9 +62,11 @@ async def create_or_fetch_agent(agent_cfg, project_client, created_agent_ids,ker
     try:
         agent.name = agent_name
     except Exception:
+        # Some agent objects may not allow setting .name; ignore if so
         pass
     return agent
 
+# === Handoff Mapping ===
 def build_handoffs_dict(agent_configs):
     """
     Build the handoff mapping for orchestration.
@@ -80,12 +84,14 @@ def build_handoffs_dict(agent_configs):
         handoffs_dict[agent_name] = handoff_names
     return handoffs_dict
 
+# === Initialization ===
 async def init_agents(project_client, kernel=None):
     """
     Initializes multiple agents (new and existing) and orchestration handoffs.
 
     Args:
         project_client: The Azure AI project client.
+        kernel: Optional kernel to attach to agents.
 
     Returns:
         tuple: (list of agents, OrchestrationHandoffs instance, list of created agent IDs)
@@ -107,5 +113,6 @@ async def init_agents(project_client, kernel=None):
         handoffs = OrchestrationHandoffs(handoffs_dict)
         return agents, handoffs, created_agent_ids
     except Exception as e:
+        # Log and re-raise any errors during agent initialization
         print(f"[Agents] Error initializing agents: {e}")
         raise
