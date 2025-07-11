@@ -29,5 +29,5 @@ class ToolsPlugin:
         Returns:
             int: The sum of a and b.
         """
-        print(f"This Message is called within the function add_numbers with a:{a} and b:{b}")  # Log the operation for debugging
+        print(f"[FUNCTION] The function add_numbers was called with arguments: {a}, {b}")  # Log the operation for debugging
         return a + b

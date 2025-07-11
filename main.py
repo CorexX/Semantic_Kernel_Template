@@ -44,7 +44,7 @@ async def main():
         DefaultAzureCredential() as creds,
         AzureAIAgent.create_client(credential=creds, endpoint=PROJECT_ENDPOINT) as project_client,
     ):
-        # Start the orchestration runtime
+        # Start the orchestration runtime 
         runtime_wrapper = OrchestrationRuntime()
         runtime_wrapper.start()
 
