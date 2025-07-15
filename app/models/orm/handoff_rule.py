@@ -1,7 +1,7 @@
 # handoff_rule.py
 from sqlalchemy import Column, String, ForeignKey, Integer, JSON
 from sqlalchemy.orm import relationship
-from app.core.database import Base
+from core.database import Base
 
 class HandoffRule(Base):
     __tablename__ = "handoff_rules"

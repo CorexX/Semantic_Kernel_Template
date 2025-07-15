@@ -1,7 +1,7 @@
 # foundry_agent.py
 from sqlalchemy import Column, String, Boolean, DateTime
 from sqlalchemy.orm import relationship
-from app.core.database import Base
+from core.database import Base
 import datetime
 
 class FoundryAgent(Base):

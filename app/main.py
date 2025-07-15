@@ -16,8 +16,9 @@ from contextlib import asynccontextmanager
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # — Startup —
-    app.state.kernel = build_kernel(settings)
-    app.state.vita = VitaClient(settings.VITA_API_URL, settings.VITA_API_KEY)
+    print("DEBUG: Starting up FastAPI application...")
+    # app.state.kernel = build_kernel(settings)
+    # app.state.vita = VitaClient(settings.VITA_API_URL, settings.VITA_API_KEY)
 
     # Alembic-Migration
     alembic_cfg = Config(os.path.join(os.getcwd(), "alembic.ini"))

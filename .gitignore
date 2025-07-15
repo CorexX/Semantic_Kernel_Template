@@ -1,0 +1,16 @@
+#default gitignore for Vita project
+# Ignore environment files
+
+.env
+# Ignore database files
+*.db
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+
+
+# Ignore virtual environment directories
+venv/
+# Ignore log files
+*.log
